@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARTS Pro — Gestion Associative</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="fas fa-gem"></i></div>
+    <div class="brand-text">
+      <h2>ARTS PRO</h2>
+      <span>Gestion Associative</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section">PRINCIPAL</div>
+    <div class="nav-item active" data-page="dashboard"><i class="fas fa-chart-pie"></i> Tableau de Bord</div>
+    <div class="nav-item" data-page="membres"><i class="fas fa-users"></i> Membres</div>
+    <div class="nav-item" data-page="tresorerie"><i class="fas fa-wallet"></i> Tresorerie</div>
+    <div class="nav-item" data-page="transactions"><i class="fas fa-exchange-alt"></i> Transactions</div>
+
+    <div class="nav-section">OPERATIONS</div>
+    <div class="nav-item" data-page="emprunts"><i class="fas fa-hand-holding-usd"></i> Emprunts</div>
+    <div class="nav-item" data-page="transferts"><i class="fas fa-random"></i> Transferts</div>
+    <div class="nav-item" data-page="amendes"><i class="fas fa-gavel"></i> Amendes</div>
+    <div class="nav-item" data-page="tontines"><i class="fas fa-sync-alt"></i> Tontines</div>
+
+    <div class="nav-section">GOUVERNANCE</div>
+    <div class="nav-item" data-page="evenements"><i class="fas fa-calendar-alt"></i> Evenements</div>
+    <div class="nav-item" data-page="votes"><i class="fas fa-vote-yea"></i> Votes</div>
+    <div class="nav-item" data-page="alertes"><i class="fas fa-bell"></i> Alertes</div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="avatar">PW</div>
+      <div><strong>Poclaire Wamba</strong><br><small>Administrateur</small></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-toggle" onclick="document.body.classList.toggle('sidebar-collapsed')"><i class="fas fa-bars"></i></button>
+      <h1 id="page-title">Tableau de Bord</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Rechercher un membre...">
+      </div>
+      <div class="topbar-date"><i class="fas fa-clock"></i> 31 Mars 2026</div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="page active" id="page-dashboard">
+      <div class="kpi-grid">
+        <div class="kpi-card accent"><div class="kpi-icon"><i class="fas fa-coins"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Solde Global</div></div></div>
+        <div class="kpi-card green"><div class="kpi-icon"><i class="fas fa-check-circle"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Membres Conformes</div></div></div>
+        <div class="kpi-card purple"><div class="kpi-icon"><i class="fas fa-users"></i></div><div class="kpi-body"><div class="kpi-value">25</div><div class="kpi-label">Membres Actifs</div></div></div>
+        <div class="kpi-card orange"><div class="kpi-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="kpi-body"><div class="kpi-value">7</div><div class="kpi-label">Emprunts Actifs</div></div></div>
+        <div class="kpi-card red"><div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="kpi-body"><div class="kpi-value">14</div><div class="kpi-label">Alertes</div></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3>Soldes par Membre</h3></div><div class="card-body"><canvas id="chart-balances" height="250"></canvas></div></div>
+        <div class="card"><div class="card-header"><h3>Repartition Transactions</h3></div><div class="card-body"><canvas id="chart-types" height="250"></canvas></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3>Distribution Scores</h3></div><div class="card-body"><canvas id="chart-scores" height="200"></canvas></div></div>
+        <div class="card"><div class="card-header"><h3>Volume Transactions</h3></div><div class="card-body"><canvas id="chart-txn" height="300"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- ===== MEMBRES ===== -->
+    <div class="page" id="page-membres">
+      <div class="kpi-grid">
+        <div class="kpi-card green"><div class="kpi-icon"><i class="fas fa-user-check"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Membres Actifs</div></div></div>
+        <div class="kpi-card red"><div class="kpi-icon"><i class="fas fa-user-times"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Membres Inactifs</div></div></div>
+        <div class="kpi-card accent"><div class="kpi-icon"><i class="fas fa-chart-bar"></i></div><div class="kpi-body"><div class="kpi-value">30</div><div class="kpi-label">Total Inscrits</div></div></div>
+        <div class="kpi-card purple"><div class="kpi-icon"><i class="fas fa-star"></i></div><div class="kpi-body"><div class="kpi-value">5</div><div class="kpi-label">Score A/A+</div></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3>Liste des Membres</h3>
+          <div class="toolbar">
+            <button class="filter-btn active" onclick="filterMembers('all')">Tous</button>
+            <button class="filter-btn" onclick="filterMembers('conforme')">Conformes</button>
+            <button class="filter-btn" onclick="filterMembers('deficit')">Deficit</button>
+            <button class="filter-btn" onclick="filterMembers('warning')">Warning</button>
+            <button class="filter-btn" onclick="filterMembers('inactif')">Inactifs</button>
+          </div>
+        </div>
+        <div class="card-body table-wrap">
+          <table>
+            <thead><tr><th>Nom</th><th>Score</th><th>Assurance</th><th>Banque</th><th>Interets</th><th>Transactions</th><th>Participation</th><th>Statut</th></tr></thead>
+            <tbody id="members-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TRESORERIE ===== -->
+    <div class="page" id="page-tresorerie">
+      <div class="kpi-grid">
+        <div class="kpi-card accent"><div class="kpi-icon"><i class="fas fa-piggy-bank"></i></div><div class="kpi-body"><div class="kpi-value">7 100 &euro;</div><div class="kpi-label">Assurance</div></div></div>
+        <div class="kpi-card green"><div class="kpi-icon"><i class="fas fa-university"></i></div><div class="kpi-body"><div class="kpi-value">10 497 &euro;</div><div class="kpi-label">Banque</div></div></div>
+        <div class="kpi-card purple"><div class="kpi-icon"><i class="fas fa-percentage"></i></div><div class="kpi-body"><div class="kpi-value">709 &euro;</div><div class="kpi-label">Interets</div></div></div>
+        <div class="kpi-card orange"><div class="kpi-icon"><i class="fas fa-sync"></i></div><div class="kpi-body"><div class="kpi-value">700 &euro;</div><div class="kpi-label">Tontines</div></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Comptes Associatifs (CORP ARTS)</h3></div>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-box"><span class="info-label">Banque CORP</span><span class="info-value">967,60 &euro;</span></div>
+            <div class="info-box"><span class="info-label">Interets CORP</span><span class="info-value">79,30 &euro;</span></div>
+            <div class="info-box"><span class="info-label">Amendes CORP</span><span class="info-value">12,75 &euro;</span></div>
+            <div class="info-box"><span class="info-label">Tontines CORP</span><span class="info-value">700,00 &euro;</span></div>
+            <div class="info-box"><span class="info-label">Inscription</span><span class="info-value warn">-5,00 &euro;</span></div>
+            <div class="info-box"><span class="info-label">Commission</span><span class="info-value">0,00 &euro;</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Soldes par Compte (tous membres)</h3></div>
+        <div class="card-body table-wrap">
+          <table>
+            <thead><tr><th>Compte</th><th>Solde Total</th><th>Seuil</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td>Assurance</td><td>7 100,03 &euro;</td><td>400 &euro;/mbr</td><td><span class="status-badge attente">19 sous seuil</span></td></tr>
+              <tr><td>Banque</td><td>10 497,13 &euro;</td><td>500 &euro;/mbr</td><td><span class="status-badge deficit">21 sous seuil</span></td></tr>
+              <tr><td>Interets</td><td>708,61 &euro;</td><td>—</td><td><span class="status-badge conforme">OK</span></td></tr>
+              <tr><td>Tontines</td><td>700,00 &euro;</td><td>—</td><td><span class="status-badge conforme">OK</span></td></tr>
+              <tr><td>Amendes</td><td>17,25 &euro;</td><td>—</td><td><span class="status-badge conforme">OK</span></td></tr>
+              <tr><td>Projet</td><td>0,00 &euro;</td><td>—</td><td><span class="status-badge attente">Vide</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TRANSACTIONS ===== -->
+    <div class="page" id="page-transactions">
+      <div class="kpi-grid">
+        <div class="kpi-card accent"><div class="kpi-icon"><i class="fas fa-receipt"></i></div><div class="kpi-body"><div class="kpi-value">17 000+</div><div class="kpi-label">Total Operations</div></div></div>
+        <div class="kpi-card green"><div class="kpi-icon"><i class="fas fa-check"></i></div><div class="kpi-body"><div class="kpi-value">~72%</div><div class="kpi-label">Confirmees</div></div></div>
+        <div class="kpi-card orange"><div class="kpi-icon"><i class="fas fa-hourglass-half"></i></div><div class="kpi-body"><div class="kpi-value">~28%</div><div class="kpi-label">En Attente</div></div></div>
+        <div class="kpi-card purple"><div class="kpi-icon"><i class="fas fa-user"></i></div><div class="kpi-body"><div class="kpi-value">25</div><div class="kpi-label">Membres Actifs</div></div></div>
+      </div>
+      <div class="card"><div class="card-header"><h3>Confirmees vs Attente par Membre</h3></div><div class="card-body"><canvas id="chart-txn-detail" height="250"></canvas></div></div>
+      <div class="card">
+        <div class="card-header"><h3>Detail par Membre</h3></div>
+        <div class="card-body table-wrap">
+          <table>
+            <thead><tr><th>Membre</th><th>Total Txn</th><th>Cotisations</th><th>Emprunts</th><th>Autres</th><th>Amendes</th><th>Profil</th></tr></thead>
+            <tbody id="txn-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== EMPRUNTS ===== -->
+    <div class="page" id="page-emprunts">
+      <div class="kpi-grid">
+        <div class="kpi-card accent"><div class="kpi-icon"><i class="fas fa-file-invoice-dollar"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Total Emprunts</div></div></div>
+        <div class="kpi-card green"><div class="kpi-icon"><i class="fas fa-money-bill-wave"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Volume Cumule</div></div></div>
+        <div class="kpi-card purple"><div class="kpi-icon"><i class="fas fa-percentage"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Interets Generes</div></div></div>
+        <div class="kpi-card red"><div class="kpi-icon"><i class="fas fa-exclamation-circle"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">En Retard</div></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3>Evolution Emprunts Cumules</h3></div><div class="card-body"><canvas id="chart-emprunts" height="200"></canvas></div></div>
+        <div class="card"><div class="card-header"><h3>Repartition Activite</h3></div><div class="card-body"><canvas id="chart-emprunt-ratio" height="200"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Emprunts Actifs</h3></div>
+        <div class="card-body table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Montant</th><th>Interets</th><th>Debut</th><th>Echeance</th><th>Statut</th><th>Rembourse</th><th>Progression</th></tr></thead>
+            <tbody id="emprunts-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TRANSFERTS ===== -->
+    <div class="page" id="page-transferts">
+      <div class="kpi-grid">
+        <div class="kpi-card accent"><div class="kpi-icon"><i class="fas fa-exchange-alt"></i></div><div class="kpi-body"><div class="kpi-value">323</div><div class="kpi-label">Total Transferts</div></div></div>
+        <div class="kpi-card green"><div class="kpi-icon"><i class="fas fa-arrow-right"></i></div><div class="kpi-body"><div class="kpi-value">192</div><div class="kpi-label">Depuis Interets</div></div></div>
+        <div class="kpi-card purple"><div class="kpi-icon"><i class="fas fa-arrow-left"></i></div><div class="kpi-body"><div class="kpi-value">64</div><div class="kpi-label">Depuis Banque</div></div></div>
+        <div class="kpi-card orange"><div class="kpi-icon"><i class="fas fa-euro-sign"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Volume Total</div></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><h3>Transferts par Source</h3></div><div class="card-body"><canvas id="chart-transfers" height="200"></canvas></div></div>
+        <div class="card"><div class="card-header"><h3>Concentration Temporelle</h3></div><div class="card-body"><canvas id="chart-transfer-time" height="200"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Derniers Transferts</h3></div>
+        <div class="card-body table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Montant</th><th>Source</th><th>Destination</th><th>Statut</th></tr></thead>
+            <tbody id="transferts-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== AMENDES ===== -->
+    <div class="page" id="page-amendes">
+      <div class="kpi-grid">
+        <div class="kpi-card red"><div class="kpi-icon"><i class="fas fa-gavel"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Total Amendes</div></div></div>
+        <div class="kpi-card orange"><div class="kpi-icon"><i class="fas fa-coins"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Solde Amendes</div></div></div>
+        <div class="kpi-card purple"><div class="kpi-icon"><i class="fas fa-calculator"></i></div><div class="kpi-body"><div class="kpi-value">—</div><div class="kpi-label">Moyenne / Membre</div></div></div>
+      </div>
+      <div class="card"><div class="card-header"><h3>Amendes par Membre</h3></div><div class="card-body"><canvas id="chart-amendes" height="250"></canvas></div></div>
+      <div class="card">
+        <div class="card-header"><h3>Resume par Membre</h3></div>
+        <div class="card-body table-wrap">
+          <table>
+            <thead><tr><th>Membre</th><th>Nombre</th><th>Total</th><th>Moyenne</th><th>Statut</th></tr></thead>
+            <tbody id="amendes-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TONTINES ===== -->
+    <div class="page" id="page-tontines">
+      <div class="kpi-grid">
+        <div class="kpi-card accent"><div class="kpi-icon"><i class="fas fa-sync-alt"></i></div><div class="kpi-body"><div class="kpi-value">700 &euro;</div><div class="kpi-label">Solde Tontines</div></div></div>
+        <div class="kpi-card green"><div class="kpi-icon"><i class="fas fa-users"></i></div><div class="kpi-body"><div class="kpi-value">4</div><div class="kpi-label">Participants</div></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Participants Tontines</h3></div>
+        <div class="card-body table-wrap">
+          <table>
+            <thead><tr><th>Membre</th><th>Solde Tontine</th><th>Solde Previsionnel</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Brainda Nangmo</strong></td><td>0,00 &euro;</td><td>400,00 &euro;</td></tr>
+              <tr><td><strong>Eden Manuela NENKAM</strong></td><td>0,00 &euro;</td><td>200,00 &euro;</td></tr>
+              <tr><td><strong>Pericles Nchebou</strong></td><td>0,00 &euro;</td><td>100,00 &euro;</td></tr>
+              <tr><td><strong>Laura Guefack</strong></td><td>0,00 &euro;</td><td>50,00 &euro;</td></tr>
+              <tr><td><strong>Liliane Keleko</strong></td><td>0,00 &euro;</td><td>150,00 &euro;</td></tr>
+              <tr><td><strong>Zeph Chebou</strong></td><td>0,00 &euro;</td><td>100,00 &euro;</td></tr>
+            </tbody>
+          </table>
+          <div class="info-box" style="margin-top:16px"><span class="info-label">Note</span><span class="info-value">CORP ARTS detient 700 &euro; en tontines redistributables</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== EVENEMENTS ===== -->
+    <div class="page" id="page-evenements">
+      <div class="card">
+        <div class="card-header"><h3>Reunions &amp; Evenements ARTS</h3></div>
+        <div class="card-body">
+          <div class="event-list">
+            <div class="event-item"><div class="event-date"><span class="day">04</span><span class="month">AVR</span></div><div class="event-info"><h4>Reunion Mensuelle</h4><p>Cotisations, emprunts, votes internes</p></div><span class="status-badge attente">A venir</span></div>
+            <div class="event-item"><div class="event-date"><span class="day">04</span><span class="month">MAR</span></div><div class="event-info"><h4>Reunion Mensuelle</h4><p>Bilan trimestriel Q1 2026</p></div><span class="status-badge conforme">Termine</span></div>
+            <div class="event-item"><div class="event-date"><span class="day">04</span><span class="month">FEV</span></div><div class="event-info"><h4>Reunion Mensuelle</h4><p>Cotisations mensuelles, nouveau emprunt confirme</p></div><span class="status-badge conforme">Termine</span></div>
+            <div class="event-item"><div class="event-date"><span class="day">02</span><span class="month">JAN</span></div><div class="event-info"><h4>Assemblee Generale Annuelle</h4><p>Bilan 2025, transferts annuels (225 transferts ce jour), planification 2026</p></div><span class="status-badge conforme">Termine</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== VOTES ===== -->
+    <div class="page" id="page-votes">
+      <div class="card">
+        <div class="card-header"><h3>Decisions &amp; Votes</h3></div>
+        <div class="card-body">
+          <div class="vote-list">
+            <div class="vote-item"><div class="vote-header"><h4>Augmentation seuil Banque a 600 &euro;</h4><span class="status-badge attente">En discussion</span></div><p>Proposition de relever le seuil minimal du compte Banque de 500 &euro; a 600 &euro;</p><div class="vote-meta">Propose le 04/03/2026 — 0 votes</div></div>
+            <div class="vote-item"><div class="vote-header"><h4>Double validation transferts &gt; 200 &euro;</h4><span class="status-badge attente">En attente</span></div><p>Toute operation de transfert superieure a 200 &euro; necessite une double signature</p><div class="vote-meta">Propose le 04/03/2026 — Recommande par audit</div></div>
+            <div class="vote-item"><div class="vote-header"><h4>Exclusion membre inactif (Geoffroy K.)</h4><span class="status-badge deficit">Rejete</span></div><p>Vote pour le retrait de Geoffroy Klimerak du registre actif</p><div class="vote-meta">04/02/2026 — Resultat: 12 pour / 8 contre / 5 abstentions</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ALERTES ===== -->
+    <div class="page" id="page-alertes">
+      <div class="card">
+        <div class="card-header"><h3>Alertes &amp; Risques</h3></div>
+        <div class="card-body">
+          <div id="alerts-list"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- .content -->
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
