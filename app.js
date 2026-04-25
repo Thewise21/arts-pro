@@ -1,6 +1,7 @@
 // ============================================================
 // ARTS Pro — app.js
-// Real data from nkap.fr exports (March 2026)
+// Real data from nkap.fr — Last sync: 19 April 2026
+// Previous snapshot: 31 March 2026 (delta in comments)
 // ============================================================
 
 // ==================== MEMBERS (30 total: 25 original + 5 historical) ====================
@@ -41,18 +42,22 @@ const members = [
 // CORP ARTS account
 const corpArts = { bq: 967.6, int: 79.3, amende: 12.75, tontine: 700 };
 
-// ==================== ACCOUNTS (real totals from Excel treasury exports) ====================
+// ==================== ACCOUNTS (real totals from nkap.fr \u2014 19 April 2026) ====================
+// Solde Global: 24 308.92 \u20ac (vs 19 007 \u20ac au 31/03 \u2192 +5 301.92 \u20ac soit +27.9%)
+// Total op\u00e9rations: 19 445 (vs ~17 000 \u2192 +2 400 ops en 20 jours)
 const accounts = {
-  assurance:    { balance: 7100.03, seuil: 400, label: 'Assurance' },
-  banque:       { balance: 10497.13, seuil: 500, label: 'Banque' },
-  amende:       { balance: 17.25, seuil: 0, label: 'Amendes' },
-  tontines:     { balance: 700, seuil: 0, label: 'Tontines' },
-  interets:     { balance: 708.61, seuil: 0, label: 'Int\u00e9r\u00eats' },
-  inscription:  { balance: -5, seuil: 0, label: 'Inscription' },
-  projet:       { balance: 0, seuil: 0, label: 'Projet' },
-  commission:   { balance: 0, seuil: 0, label: 'Commission' },
-  rpn:          { balance: 0, seuil: 0, label: 'RPN' }
+  assurance:    { balance: 9279.83,  seuil: 400, label: 'Assurance',   prev: 7100.03,  delta: 2179.80 },
+  banque:       { balance: 12387.38, seuil: 2000, label: 'Banque',      prev: 10497.13, delta: 1890.25 }, // Nouveau seuil vot\u00e9 2000\u20ac (Paris ao\u00fbt 2025)
+  amende:       { balance: 17.25,    seuil: 0,   label: 'Amendes',     prev: 17.25,    delta: 0 },
+  tontines:     { balance: 1350.00,  seuil: 0,   label: 'Tontines',    prev: 700,      delta: 650 },
+  interets:     { balance: 1129.46,  seuil: 0,   label: 'Int\u00e9r\u00eats',    prev: 708.61,   delta: 420.85 },
+  inscription:  { balance: 95.00,    seuil: 0,   label: 'Inscription', prev: -5,       delta: 100 }, // Redress\u00e9
+  projet:       { balance: 50.00,    seuil: 0,   label: 'Projet',      prev: 0,        delta: 50 }, // Nouveau compte aliment\u00e9
+  commission:   { balance: 0,        seuil: 0,   label: 'Commission',  prev: 0,        delta: 0 },
+  rpn:          { balance: 0,        seuil: 0,   label: 'RPN',         prev: 0,        delta: 0 }
 };
+const totalOperations = 19445; // vs ~17000 last check
+const soldeGlobalNkap = 24308.92; // Source: nkap.fr balanceSheet 19/04/2026
 
 // ==================== EMPRUNTS (112 real emprunts from nkap.fr) ====================
 // Format: [id, montant, interets, date_remboursement, statut, deja_rembourse, date_emprunt]
@@ -329,8 +334,15 @@ function generateAmendesFromStats() {
 
 const amendes = generateAmendesFromStats();
 
-// ==================== ALERTS (real, based on data analysis) ====================
+// ==================== ALERTS (real, based on data analysis \u2014 updated 19/04/2026) ====================
 const alerts = [
+  // ===== NOUVELLES (19/04/2026) =====
+  {level:'high',icon:'fa-piggy-bank',title:'Loi \u00c9pargne 2 000\u20ac \u2014 Compte Banque sous seuil',desc:'Vote ARTS-Paris (ao\u00fbt 2025): chaque membre doit avoir 2 000\u20ac en Banque au 31/12/2026. Solde actuel 12 387\u20ac \u2192 ~495\u20ac/membre (25). Manque ~37 600\u20ac.',meta:'\u00c9ch\u00e9ance: 31/12/2026'},
+  {level:'medium',icon:'fa-arrow-up',title:'Tr\u00e9sorerie en hausse (+5 302\u20ac)',desc:'Solde global ARTS pass\u00e9 de 19 007\u20ac \u00e0 24 308.92\u20ac (+27.9%) entre 31/03 et 19/04/2026. Tontines doubl\u00e9es (+650\u20ac), Banque +1 890\u20ac, Assurance +2 180\u20ac.',meta:'+5 301.92\u20ac'},
+  {level:'medium',icon:'fa-check-circle',title:'Compte Inscription redress\u00e9',desc:'Le compte Inscription est pass\u00e9 de -5\u20ac (anomalie) \u00e0 +95\u20ac. Probablement nouveau membre Esrom Kumbo qui a pay\u00e9.',meta:'+100\u20ac'},
+  {level:'medium',icon:'fa-folder-plus',title:'Projet ARTS 2026 \u2014 d\u00e9caissement effectu\u00e9',desc:'Compte Projet aliment\u00e9 \u00e0 50\u20ac (vs 0\u20ac). D\u00e9caissement annuel projet ARTS 2026 par Lenine pour 23 membres \u00d7 50\u20ac.',meta:'WhatsApp 17/03'},
+  {level:'high',icon:'fa-bolt',title:'2 400 op\u00e9rations suppl\u00e9mentaires en 20 jours',desc:'Total op\u00e9rations pass\u00e9 de ~17 000 \u00e0 19 445 (+14%). Cadence tr\u00e8s \u00e9lev\u00e9e: 120 ops/jour en moyenne.',meta:'31/03 \u2192 19/04'},
+  // ===== EXISTANTES =====
   {level:'critical',icon:'fa-user-times',title:'Geoffroy Klimerak \u2014 Membre Inactif',desc:'0 transaction, 0\u20ac sur tous les comptes. Aucune activit\u00e9 enregistr\u00e9e.',meta:'Depuis toujours'},
   {level:'critical',icon:'fa-ghost',title:'Hermann Nguedia \u2014 Membre Fant\u00f4me',desc:'1 seule transaction (143\u20ac) jamais confirm\u00e9e. Statut: Attente permanent.',meta:'ID 25'},
   {level:'critical',icon:'fa-shield-alt',title:'19/25 Membres sous seuil Assurance',desc:'Seulement 6 membres au-dessus de 400\u20ac. D\u00e9ficit cumul\u00e9 estim\u00e9 \u00e0 ~3 000\u20ac.',meta:'Seuil: 400\u20ac'},
@@ -640,8 +652,8 @@ function initCharts() {
 
 // ==================== DYNAMIC KPI UPDATES ====================
 function updateDashboardKPIs() {
-  // Solde Global = sum of all member glob values + CORP ARTS
-  const soldeGlobal = members.reduce((s, m) => s + m.glob, 0) + corpArts.bq + corpArts.int + corpArts.amende + corpArts.tontine;
+  // Solde Global from nkap.fr live (19/04/2026) \u2014 overrides per-member sum
+  const soldeGlobal = soldeGlobalNkap;
   const kpiValues = document.querySelectorAll('#page-dashboard .kpi-value');
   if (kpiValues.length >= 5) {
     kpiValues[0].textContent = Math.round(soldeGlobal).toLocaleString('fr-FR') + ' \u20ac';
